@@ -19,7 +19,6 @@ class SongsController < ApplicationController
     end
     if !params["genre"]["name"].empty?
       @genre = Genre.create(name: params["genre"]["name"])
-      @song.genre_id = genre.id
     end
     @song.genre = @genre
     @song.save
@@ -41,6 +40,8 @@ class SongsController < ApplicationController
   patch '/songs/:slug' do
     @song = Song.find(params[:id])
     @song.update(params["artist"])
+    @song.update(params["genre"])
+    @song.save
     redirect "/songs/#{@song.slug}"
   end
   
